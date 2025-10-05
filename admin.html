@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - متجرنا الإلكتروني</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .admin-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .admin-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .admin-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .admin-nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .admin-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .admin-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .admin-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .admin-tab.active {
+            border-bottom: 3px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .admin-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .admin-form {
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .image-upload-container {
+            margin-bottom: 15px;
+        }
+        
+        .image-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .image-preview {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .remove-image {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-input-button {
+            display: block;
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .file-input-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-warning {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .products-list, .orders-list, .ads-list, .users-list, .categories-list {
+            margin-top: 20px;
+        }
+        
+        .product-row, .order-row, .ad-row, .user-row, .category-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .product-actions, .order-actions, .ad-actions, .user-actions, .category-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .order-details {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        
+        .order-items {
+            margin-top: 10px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .order-status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .status-processing {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .status-shipped {
+            background-color: #9b59b6;
+            color: white;
+        }
+        
+        .status-delivered {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .status-cancelled {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .stat-card.sales {
+            border-left-color: #2ecc71;
+        }
+        
+        .stat-card.orders {
+            border-left-color: #3498db;
+        }
+        
+        .stat-card.users {
+            border-left-color: #9b59b6;
+        }
+        
+        .stat-card.products {
+            border-left-color: #f39c12;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        .stat-card.sales .stat-value {
+            color: #2ecc71;
+        }
+        
+        .stat-card.orders .stat-value {
+            color: #3498db;
+        }
+        
+        .stat-card.users .stat-value {
+            color: #9b59b6;
+        }
+        
+        .stat-card.products .stat-value {
+            color: #f39c12;
+        }
+        
+        .stat-label {
+            color: #666;
+        }
+        
+        .stat-change {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .stat-change.positive {
+            color: #2ecc71;
+        }
+        
+        .stat-change.negative {
+            color: #e74c3c;
+        }
+        
+        .admin-tab-content {
+            display: none;
+        }
+        
+        .admin-tab-content.active {
+            display: block;
+        }
+        
+        .delivery-prices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .delivery-price-card {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        
+        .delivery-price-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .delivery-price-values {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .chart-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-top: 20px;
+        }
+        
+        .chart-placeholder {
+            height: 300px;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            border-radius: 4px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--success-color);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .user-details {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .password-field {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .show-password {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .category-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .category-form .form-group {
+            margin-bottom: 0;
+        }
+
+        .specifications-form {
+            margin-bottom: 20px;
+        }
+
+        .spec-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .spec-row input {
+            flex: 1;
+        }
+
+        .remove-spec {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 40px;
+            cursor: pointer;
+        }
+
+        .add-spec {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .colors-sizes-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .colors-sizes-form .form-group {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .category-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .colors-sizes-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .spec-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <div class="admin-header-container">
+            <div class="admin-logo">لوحة التحكم - متجرنا</div>
+            <div class="admin-nav">
+                <a href="index.html">العودة للموقع</a>
+                <a href="#" id="logoutBtn">تسجيل الخروج</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="admin-container">
+        <div class="admin-tabs">
+            <div class="admin-tab active" data-tab="dashboard">لوحة التحكم</div>
+            <div class="admin-tab" data-tab="products">إدارة المنتجات</div>
+            <div class="admin-tab" data-tab="categories">إدارة التصنيفات</div>
+            <div class="admin-tab" data-tab="orders">إدارة الطلبات</div>
+            <div class="admin-tab" data-tab="ads">الإعلانات</div>
+            <div class="admin-tab" data-tab="users">المستخدمين</div>
+            <div class="admin-tab" data-tab="delivery">أسعار التوصيل</div>
+        </div>
+        
+        <div class="admin-content">
+            <!-- لوحة التحكم -->
+            <div class="admin-tab-content active" id="dashboardTab">
+                <h2>لوحة التحكم</h2>
+                <div class="stats-grid">
+                    <div class="stat-card sales">
+                        <div class="stat-label">إجمالي المبيعات</div>
+                        <div class="stat-value" id="totalSales">0 د.ج</div>
+                        <div class="stat-change positive" id="salesChange">+5% عن الشهر الماضي</div>
+                    </div>
+                    <div class="stat-card orders">
+                        <div class="stat-label">إجمالي الطلبات</div>
+                        <div class="stat-value" id="totalOrders">0</div>
+                        <div class="stat-change positive" id="ordersChange">+12% عن الشهر الماضي</div>
+                    </div>
+                    <div class="stat-card users">
+                        <div class="stat-label">المستخدمين المسجلين</div>
+                        <div class="stat-value" id="totalUsers">0</div>
+                        <div class="stat-change positive" id="usersChange">+8% عن الشهر الماضي</div>
+                    </div>
+                    <div class="stat-card products">
+                        <div class="stat-label">إجمالي المنتجات</div>
+                        <div class="stat-value" id="totalProducts">0</div>
+                        <div class="stat-change positive" id="productsChange">+3% عن الشهر الماضي</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>إحصائيات المبيعات</h3>
+                    <div class="chart-placeholder">
+                        رسم بياني للمبيعات (سيتم تطويره لاحقاً)
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>المنتجات الأكثر مبيعاً</h3>
+                    <div class="chart-placeholder">
+                        قائمة المنتجات الأكثر مبيعاً (سيتم تطويره لاحقاً)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- إدارة المنتجات -->
+            <div class="admin-tab-content" id="productsTab">
+                <h2>إدارة المنتجات</h2>
+                <form class="admin-form" id="productForm">
+                    <input type="hidden" id="productId">
+                    <div class="form-group">
+                        <label for="productName">اسم المنتج</label>
+                        <input type="text" id="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription">وصف المنتج</label>
+                        <textarea id="productDescription" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="productCategory">التصنيف</label>
+                        <select id="productCategory" required>
+                            <option value="">اختر التصنيف</option>
+                            <!-- سيتم ملء التصنيفات ديناميكياً -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">سعر المنتج (د.ج)</label>
+                        <input type="number" id="productPrice" required>
+                    </div>
+                    
+                    <!-- صورة المنتج الرئيسية -->
+                    <div class="image-upload-container">
+                        <label>صورة المنتج الرئيسية</label>
+                        <div class="file-input-wrapper">
+                            <div class="file-input-button">اختر صورة المنتج الرئيسية</div>
+                            <input type="file" id="mainProductImage" accept="image/*">
+                        </div>
+                        <div class="image-preview-container" id="mainImagePreview">
+                            <!-- سيتم عرض معاينة الصورة هنا -->
+                        </div>
+                    </div>
+                    
+                    <!-- الصور الإضافية -->
+                    <div class="image-upload-container">
+                        <label>الصور الإضافية للمنتج</label>
+                        <div class="file-input-wrapper">
+                            <div class="file-input-button">اختر صور إضافية</div>
+                            <input type="file" id="additionalProductImages" accept="image/*" multiple>
+                        </div>
+                        <div class="image-preview-container" id="additionalImagesPreview">
+                            <!-- سيتم عرض معاينة الصور الإضافية هنا -->
+                        </div>
+                    </div>
+                    
+                    <!-- المواصفات -->
+                    <div class="specifications-form">
+                        <label>مواصفات المنتج</label>
+                        <div id="specificationsContainer">
+                            <div class="spec-row">
+                                <input type="text" class="spec-key" placeholder="اسم المواصفة (مثل: الشاشة)">
+                                <input type="text" class="spec-value" placeholder="قيمة المواصفة (مثل: 6.5 بوصة)">
+                                <button type="button" class="remove-spec">✕</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-spec" id="addSpecBtn">إضافة مواصفة</button>
+                    </div>
+                    
+                    <!-- الألوان والمقاسات -->
+                    <div class="colors-sizes-form">
+                        <div class="form-group">
+                            <label for="productColors">الألوان المتاحة (مفصولة بفاصلة)</label>
+                            <input type="text" id="productColors" placeholder="أسود, أبيض, أحمر">
+                        </div>
+                        <div class="form-group">
+                            <label for="productSizes">المقاسات المتاحة (مفصولة بفاصلة)</label>
+                            <input type="text" id="productSizes" placeholder="صغير, متوسط, كبير">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="saveProduct">حفظ المنتج</button>
+                        <button type="button" class="btn" id="cancelEdit">إلغاء</button>
+                    </div>
+                </form>
+                
+                <div class="products-list" id="adminProductsList">
+                    <!-- سيتم ملء قائمة المنتجات ديناميكياً -->
+                </div>
+            </div>
+            
+            <!-- إدارة التصنيفات -->
+            <div class="admin-tab-content" id="categoriesTab">
+                <h2>إدارة التصنيفات</h2>
+                <form class="admin-form" id="categoryForm">
+                    <input type="hidden" id="categoryId">
+                    <div class="category-form">
+                        <div class="form-group">
+                            <label for="categoryName">اسم التصنيف (العربية)</label>
+                            <input type="text" id="categoryName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoryNameFr">اسم التصنيف (الفرنسية)</label>
+                            <input type="text" id="categoryNameFr" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoryNameEn">اسم التصنيف (الإنجليزية)</label>
+                            <input type="text" id="categoryNameEn" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoryValue">قيمة التصنيف (باللغة الإنجليزية)</label>
+                            <input type="text" id="categoryValue" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="saveCategory">حفظ التصنيف</button>
+                        <button type="button" class="btn" id="cancelCategoryEdit">إلغاء</button>
+                    </div>
+                </form>
+                
+                <div class="categories-list" id="adminCategoriesList">
+                    <!-- سيتم ملء قائمة التصنيفات ديناميكياً -->
+                </div>
+            </div>
+            
+            <!-- إدارة الطلبات -->
+            <div class="admin-tab-content" id="ordersTab">
+                <h2>إدارة الطلبات</h2>
+                <div class="orders-list" id="adminOrdersList">
+                    <!-- سيتم ملء قائمة الطلبات ديناميكياً -->
+                </div>
+            </div>
+            
+            <!-- إدارة الإعلانات -->
+            <div class="admin-tab-content" id="adsTab">
+                <h2>إدارة الإعلانات</h2>
+                <form class="admin-form" id="adForm">
+                    <input type="hidden" id="adId">
+                    <div class="form-group">
+                        <label for="adTitle">عنوان الإعلان</label>
+                        <input type="text" id="adTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adDescription">وصف الإعلان</label>
+                        <textarea id="adDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="adLink">رابط الإعلان (اختياري)</label>
+                        <input type="text" id="adLink">
+                    </div>
+                    
+                    <!-- صورة الإعلان -->
+                    <div class="image-upload-container">
+                        <label>صورة الإعلان</label>
+                        <div class="file-input-wrapper">
+                            <div class="file-input-button">اختر صورة الإعلان</div>
+                            <input type="file" id="adImage" accept="image/*">
+                        </div>
+                        <div class="image-preview-container" id="adImagePreview">
+                            <!-- سيتم عرض معاينة الصورة هنا -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adActive">تفعيل الإعلان</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="adActive" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="saveAd">حفظ الإعلان</button>
+                        <button type="button" class="btn" id="cancelAdEdit">إلغاء</button>
+                    </div>
+                </form>
+                
+                <div class="ads-list" id="adminAdsList">
+                    <!-- سيتم ملء قائمة الإعلانات ديناميكياً -->
+                </div>
+            </div>
+            
+            <!-- إدارة المستخدمين -->
+            <div class="admin-tab-content" id="usersTab">
+                <h2>إدارة المستخدمين</h2>
+                <div class="users-list" id="adminUsersList">
+                    <!-- سيتم ملء قائمة المستخدمين ديناميكياً -->
+                </div>
+            </div>
+            
+            <!-- أسعار التوصيل -->
+            <div class="admin-tab-content" id="deliveryTab">
+                <h2>إدارة أسعار التوصيل</h2>
+                <form class="admin-form" id="deliveryForm">
+                    <div class="form-group">
+                        <label for="deliveryState">الولاية</label>
+                        <select id="deliveryState" required>
+                            <option value="">اختر الولاية</option>
+                            <!-- سيتم ملء الولايات ديناميكياً -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="homeDeliveryPrice">سعر التوصيل إلى المنزل (د.ج)</label>
+                        <input type="number" id="homeDeliveryPrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="officeDeliveryPrice">سعر التوصيل إلى المكتب (د.ج)</label>
+                        <input type="number" id="officeDeliveryPrice" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">حفظ الأسعار</button>
+                    </div>
+                </form>
+                
+                <div class="delivery-prices-grid" id="deliveryPricesGrid">
+                    <!-- سيتم ملء شبكة أسعار التوصيل ديناميكياً -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // جميع ولايات الجزائر (58 ولاية)
+        const algerianStates = [
+            "أدرار", "الشلف", "الأغواط", "أم البواقي", "باتنة", "بجاية", "بسكرة", "بشار", "البليدة", "البويرة",
+            "تمنراست", "تبسة", "تلمسان", "تيارت", "تيزي وزو", "الجزائر", "الجلفة", "جيجل", "سطيف", "سعيدة",
+            "سكيكدة", "سيدي بلعباس", "عنابة", "قالمة", "قسنطينة", "المدية", "مستغانم", "المسيلة", "معسكر", "ورقلة",
+            "وهران", "البيض", "إليزي", "برج بوعريريج", "بومرداس", "الطارف", "تيندوف", "تيسمسيلت", "الوادي", "خنشلة",
+            "سوق أهراس", "تيبازة", "ميلة", "عين الدفلى", "النعامة", "عين تموشنت", "غرداية", "غليزان", "تيميمون", "برج باجي مختار",
+            "أولاد جلال", "بني عباس", "عين صالح", "عين قزام", "تقرت", "جانت", "المغير", "المنيعة"
+        ];
+
+        // بيانات التطبيق
+        let products = JSON.parse(localStorage.getItem('products')) || [];
+        let categories = JSON.parse(localStorage.getItem('categories')) || [];
+        let deliveryPrices = JSON.parse(localStorage.getItem('deliveryPrices')) || {};
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        let ads = JSON.parse(localStorage.getItem('ads')) || [];
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+        // DOM Elements
+        const adminTabs = document.querySelectorAll('.admin-tab');
+        const productForm = document.getElementById('productForm');
+        const adminProductsList = document.getElementById('adminProductsList');
+        const categoryForm = document.getElementById('categoryForm');
+        const adminCategoriesList = document.getElementById('adminCategoriesList');
+        const deliveryForm = document.getElementById('deliveryForm');
+        const deliveryState = document.getElementById('deliveryState');
+        const adminOrdersList = document.getElementById('adminOrdersList');
+        const deliveryPricesGrid = document.getElementById('deliveryPricesGrid');
+        const totalProducts = document.getElementById('totalProducts');
+        const totalOrders = document.getElementById('totalOrders');
+        const totalSales = document.getElementById('totalSales');
+        const totalUsers = document.getElementById('totalUsers');
+        const adForm = document.getElementById('adForm');
+        const adminAdsList = document.getElementById('adminAdsList');
+        const adminUsersList = document.getElementById('adminUsersList');
+        const specificationsContainer = document.getElementById('specificationsContainer');
+        const addSpecBtn = document.getElementById('addSpecBtn');
+        
+        // عناصر رفع الصور
+        const mainProductImageInput = document.getElementById('mainProductImage');
+        const additionalProductImagesInput = document.getElementById('additionalProductImages');
+        const mainImagePreview = document.getElementById('mainImagePreview');
+        const additionalImagesPreview = document.getElementById('additionalImagesPreview');
+        const adImageInput = document.getElementById('adImage');
+        const adImagePreview = document.getElementById('adImagePreview');
+
+        // متغيرات لتخزين الصور
+        let mainImageData = null;
+        let additionalImagesData = [];
+        let adImageData = null;
+
+        // تهيئة لوحة التحكم
+        function initAdmin() {
+            // التحقق من صلاحيات المستخدم
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('ليس لديك صلاحية للوصول إلى لوحة التحكم');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            renderAdminProducts();
+            renderCategories();
+            renderOrders();
+            renderAds();
+            renderUsers();
+            renderDeliveryPrices();
+            updateStats();
+            setupEventListeners();
+            populateStates();
+            populateCategories();
+            setupSpecificationsForm();
+        }
+
+        // إعداد نموذج المواصفات
+        function setupSpecificationsForm() {
+            // إضافة مواصفة جديدة
+            addSpecBtn.addEventListener('click', function() {
+                addSpecificationRow();
+            });
+            
+            // إضافة سطر مواصفات افتراضي
+            addSpecificationRow();
+        }
+
+        // إضافة سطر مواصفات جديد
+        function addSpecificationRow() {
+            const specRow = document.createElement('div');
+            specRow.className = 'spec-row';
+            specRow.innerHTML = `
+                <input type="text" class="spec-key" placeholder="اسم المواصفة (مثل: الشاشة)">
+                <input type="text" class="spec-value" placeholder="قيمة المواصفة (مثل: 6.5 بوصة)">
+                <button type="button" class="remove-spec">✕</button>
+            `;
+            specificationsContainer.appendChild(specRow);
+            
+            // إضافة حدث لإزالة المواصفة
+            const removeBtn = specRow.querySelector('.remove-spec');
+            removeBtn.addEventListener('click', function() {
+                if (specificationsContainer.children.length > 1) {
+                    specificationsContainer.removeChild(specRow);
+                }
+            });
+        }
+
+        // الحصول على المواصفات من النموذج
+        function getSpecificationsFromForm() {
+            const specifications = {};
+            const specRows = specificationsContainer.querySelectorAll('.spec-row');
+            
+            specRows.forEach(row => {
+                const keyInput = row.querySelector('.spec-key');
+                const valueInput = row.querySelector('.spec-value');
+                
+                if (keyInput.value.trim() && valueInput.value.trim()) {
+                    specifications[keyInput.value.trim()] = valueInput.value.trim();
+                }
+            });
+            
+            return specifications;
+        }
+
+        // تعيين المواصفات في النموذج
+        function setSpecificationsInForm(specifications) {
+            // مسح المواصفات الحالية
+            specificationsContainer.innerHTML = '';
+            
+            if (specifications && Object.keys(specifications).length > 0) {
+                Object.entries(specifications).forEach(([key, value]) => {
+                    const specRow = document.createElement('div');
+                    specRow.className = 'spec-row';
+                    specRow.innerHTML = `
+                        <input type="text" class="spec-key" value="${key}">
+                        <input type="text" class="spec-value" value="${value}">
+                        <button type="button" class="remove-spec">✕</button>
+                    `;
+                    specificationsContainer.appendChild(specRow);
+                    
+                    // إضافة حدث لإزالة المواصفة
+                    const removeBtn = specRow.querySelector('.remove-spec');
+                    removeBtn.addEventListener('click', function() {
+                        if (specificationsContainer.children.length > 1) {
+                            specificationsContainer.removeChild(specRow);
+                        }
+                    });
+                });
+            } else {
+                // إضافة سطر افتراضي إذا لم توجد مواصفات
+                addSpecificationRow();
+            }
+        }
+
+        // تحديث الإحصائيات
+        function updateStats() {
+            totalProducts.textContent = products.length;
+            totalOrders.textContent = orders.length;
+            
+            const salesTotal = orders.reduce((total, order) => total + order.total, 0);
+            totalSales.textContent = `${salesTotal} د.ج`;
+            
+            totalUsers.textContent = users.length;
+        }
+
+        // عرض المنتجات في لوحة التحكم
+        function renderAdminProducts() {
+            adminProductsList.innerHTML = '';
+            
+            if (products.length === 0) {
+                adminProductsList.innerHTML = '<p>لا توجد منتجات</p>';
+                return;
+            }
+            
+            products.forEach(product => {
+                const productRow = document.createElement('div');
+                productRow.className = 'product-row';
+                productRow.innerHTML = `
+                    <div>
+                        <strong>${product.name}</strong> - ${product.price} د.ج - ${getCategoryName(product.category)}
+                        <div style="font-size: 14px; color: #666;">
+                            ${product.colors && product.colors.length > 0 ? `الألوان: ${product.colors.join(', ')}` : ''}
+                            ${product.sizes && product.sizes.length > 0 ? ` | المقاسات: ${product.sizes.join(', ')}` : ''}
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-primary edit-product" data-id="${product.id}">تعديل</button>
+                        <button class="btn btn-danger delete-product" data-id="${product.id}">حذف</button>
+                    </div>
+                `;
+                adminProductsList.appendChild(productRow);
+            });
+            
+            // إضافة أحداث لأزرار التعديل والحذف
+            const editBtns = adminProductsList.querySelectorAll('.edit-product');
+            const deleteBtns = adminProductsList.querySelectorAll('.delete-product');
+            
+            editBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    editProduct(id);
+                });
+            });
+            
+            deleteBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    deleteProduct(id);
+                });
+            });
+        }
+
+        // عرض التصنيفات في لوحة التحكم
+        function renderCategories() {
+            adminCategoriesList.innerHTML = '';
+            
+            if (categories.length === 0) {
+                adminCategoriesList.innerHTML = '<p>لا توجد تصنيفات</p>';
+                return;
+            }
+            
+            categories.forEach(category => {
+                const categoryRow = document.createElement('div');
+                categoryRow.className = 'category-row';
+                categoryRow.innerHTML = `
+                    <div>
+                        <strong>${category.name}</strong> (${category.value})
+                        <div style="font-size: 12px; color: #666;">
+                            ${category.name_fr} / ${category.name_en}
+                        </div>
+                    </div>
+                    <div class="category-actions">
+                        <button class="btn btn-primary edit-category" data-id="${category.id}">تعديل</button>
+                        <button class="btn btn-danger delete-category" data-id="${category.id}">حذف</button>
+                    </div>
+                `;
+                adminCategoriesList.appendChild(categoryRow);
+            });
+            
+            // إضافة أحداث لأزرار التعديل والحذف
+            const editBtns = adminCategoriesList.querySelectorAll('.edit-category');
+            const deleteBtns = adminCategoriesList.querySelectorAll('.delete-category');
+            
+            editBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    editCategory(id);
+                });
+            });
+            
+            deleteBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    deleteCategory(id);
+                });
+            });
+        }
+
+        // الحصول على اسم التصنيف
+        function getCategoryName(categoryValue) {
+            const category = categories.find(c => c.value === categoryValue);
+            return category ? category.name : categoryValue;
+        }
+
+        // عرض الطلبات
+        function renderOrders() {
+            adminOrdersList.innerHTML = '';
+            
+            if (orders.length === 0) {
+                adminOrdersList.innerHTML = '<p>لا توجد طلبات</p>';
+                return;
+            }
+            
+            // ترتيب الطلبات من الأحدث إلى الأقدم
+            const sortedOrders = [...orders].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedOrders.forEach((order, index) => {
+                const orderRow = document.createElement('div');
+                orderRow.className = 'order-row';
+                
+                // تحديد حالة الطلب
+                const status = order.status || 'pending';
+                const statusText = {
+                    'pending': 'قيد الانتظار',
+                    'processing': 'قيد المعالجة',
+                    'shipped': 'تم الشحن',
+                    'delivered': 'تم التسليم',
+                    'cancelled': 'ملغي'
+                }[status];
+                
+                orderRow.innerHTML = `
+                    <div>
+                        <strong>طلب #${index + 1}</strong> - ${order.customer.firstName} ${order.customer.lastName}
+                        <span class="order-status status-${status}">${statusText}</span>
+                        <div class="order-details">
+                            <div><strong>المعلومات:</strong> ${order.customer.phone} - ${order.customer.address}</div>
+                            <div><strong>التاريخ:</strong> ${order.date}</div>
+                            <div><strong>الولاية:</strong> ${order.customer.state}</div>
+                            <div><strong>نوع التوصيل:</strong> ${order.customer.deliveryType === 'home' ? 'إلى المنزل' : 'إلى المكتب'}</div>
+                            <div class="order-items">
+                                ${order.items.map(item => `
+                                    <div class="order-item">
+                                        <span>${item.name} (${item.quantity})</span>
+                                        <span>${item.price * item.quantity} د.ج</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div><strong>المجموع:</strong> ${order.total} د.ج</div>
+                        </div>
+                    </div>
+                    <div class="order-actions">
+                        <select class="order-status-select" data-order-index="${index}">
+                            <option value="pending" ${status === 'pending' ? 'selected' : ''}>قيد الانتظار</option>
+                            <option value="processing" ${status === 'processing' ? 'selected' : ''}>قيد المعالجة</option>
+                            <option value="shipped" ${status === 'shipped' ? 'selected' : ''}>تم الشحن</option>
+                            <option value="delivered" ${status === 'delivered' ? 'selected' : ''}>تم التسليم</option>
+                            <option value="cancelled" ${status === 'cancelled' ? 'selected' : ''}>ملغي</option>
+                        </select>
+                        <button class="btn btn-danger delete-order" data-order-index="${index}">حذف</button>
+                    </div>
+                `;
+                adminOrdersList.appendChild(orderRow);
+            });
+            
+            // إضافة أحداث لتغيير حالة الطلب
+            const statusSelects = adminOrdersList.querySelectorAll('.order-status-select');
+            statusSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    const orderIndex = parseInt(this.getAttribute('data-order-index'));
+                    updateOrderStatus(orderIndex, this.value);
+                });
+            });
+            
+            // إضافة أحداث لحذف الطلبات
+            const deleteBtns = adminOrdersList.querySelectorAll('.delete-order');
+            deleteBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const orderIndex = parseInt(this.getAttribute('data-order-index'));
+                    deleteOrder(orderIndex);
+                });
+            });
+        }
+
+        // تحديث حالة الطلب
+        function updateOrderStatus(orderIndex, newStatus) {
+            orders[orderIndex].status = newStatus;
+            localStorage.setItem('orders', JSON.stringify(orders));
+            renderOrders();
+            alert('تم تحديث حالة الطلب بنجاح');
+        }
+
+        // حذف الطلب
+        function deleteOrder(orderIndex) {
+            if (confirm('هل أنت متأكد من حذف هذا الطلب؟')) {
+                orders.splice(orderIndex, 1);
+                localStorage.setItem('orders', JSON.stringify(orders));
+                renderOrders();
+                updateStats();
+                alert('تم حذف الطلب بنجاح');
+            }
+        }
+
+        // عرض الإعلانات في لوحة التحكم
+        function renderAds() {
+            adminAdsList.innerHTML = '';
+            
+            if (ads.length === 0) {
+                adminAdsList.innerHTML = '<p>لا توجد إعلانات</p>';
+                return;
+            }
+            
+            ads.forEach(ad => {
+                const adRow = document.createElement('div');
+                adRow.className = 'ad-row';
+                adRow.innerHTML = `
+                    <div>
+                        <strong>${ad.title}</strong> - ${ad.active ? 'نشط' : 'غير نشط'}
+                        <div>${ad.description}</div>
+                    </div>
+                    <div class="ad-actions">
+                        <button class="btn btn-primary edit-ad" data-id="${ad.id}">تعديل</button>
+                        <button class="btn btn-danger delete-ad" data-id="${ad.id}">حذف</button>
+                    </div>
+                `;
+                adminAdsList.appendChild(adRow);
+            });
+            
+            // إضافة أحداث لأزرار التعديل والحذف
+            const editBtns = adminAdsList.querySelectorAll('.edit-ad');
+            const deleteBtns = adminAdsList.querySelectorAll('.delete-ad');
+            
+            editBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    editAd(id);
+                });
+            });
+            
+            deleteBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    deleteAd(id);
+                });
+            });
+        }
+
+        // عرض المستخدمين في لوحة التحكم
+        function renderUsers() {
+            adminUsersList.innerHTML = '';
+            
+            if (users.length === 0) {
+                adminUsersList.innerHTML = '<p>لا توجد مستخدمين</p>';
+                return;
+            }
+            
+            users.forEach(user => {
+                const userRow = document.createElement('div');
+                userRow.className = 'user-row';
+                userRow.innerHTML = `
+                    <div>
+                        <strong>${user.name}</strong> - ${user.role === 'admin' ? 'مدير' : 'مستخدم'}
+                        <div class="user-details">
+                            <div><strong>البريد الإلكتروني:</strong> ${user.email}</div>
+                            <div class="password-field">
+                                <strong>كلمة المرور:</strong> 
+                                <span class="password-display">••••••••</span>
+                                <button class="show-password" data-password="${user.password}">إظهار</button>
+                            </div>
+                            <div><strong>تاريخ التسجيل:</strong> ${user.registerDate || 'غير معروف'}</div>
+                        </div>
+                    </div>
+                    <div class="user-actions">
+                        ${user.id !== currentUser.id ? `<button class="btn btn-danger delete-user" data-id="${user.id}">حذف</button>` : ''}
+                    </div>
+                `;
+                adminUsersList.appendChild(userRow);
+            });
+            
+            // إضافة أحداث لإظهار/إخفاء كلمات المرور
+            const showPasswordBtns = adminUsersList.querySelectorAll('.show-password');
+            showPasswordBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const passwordDisplay = this.previousElementSibling;
+                    if (this.textContent === 'إظهار') {
+                        passwordDisplay.textContent = this.getAttribute('data-password');
+                        this.textContent = 'إخفاء';
+                    } else {
+                        passwordDisplay.textContent = '••••••••';
+                        this.textContent = 'إظهار';
+                    }
+                });
+            });
+            
+            // إضافة أحداث لحذف المستخدمين
+            const deleteBtns = adminUsersList.querySelectorAll('.delete-user');
+            deleteBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = parseInt(this.getAttribute('data-id'));
+                    deleteUser(userId);
+                });
+            });
+        }
+
+        // حذف المستخدم
+        function deleteUser(userId) {
+            if (confirm('هل أنت متأكد من حذف هذا المستخدم؟')) {
+                users = users.filter(u => u.id !== userId);
+                localStorage.setItem('users', JSON.stringify(users));
+                renderUsers();
+                updateStats();
+                alert('تم حذف المستخدم بنجاح');
+            }
+        }
+
+        // عرض أسعار التوصيل
+        function renderDeliveryPrices() {
+            deliveryPricesGrid.innerHTML = '';
+            
+            if (Object.keys(deliveryPrices).length === 0) {
+                deliveryPricesGrid.innerHTML = '<p>لا توجد أسعار توصيل محددة</p>';
+                return;
+            }
+            
+            algerianStates.forEach(state => {
+                const priceCard = document.createElement('div');
+                priceCard.className = 'delivery-price-card';
+                priceCard.innerHTML = `
+                    <div class="delivery-price-header">
+                        <strong>${state}</strong>
+                        <button class="btn btn-danger delete-delivery-price" data-state="${state}">حذف</button>
+                    </div>
+                    <div class="delivery-price-values">
+                        <div>إلى المنزل: ${deliveryPrices[state]?.home || 0} د.ج</div>
+                        <div>إلى المكتب: ${deliveryPrices[state]?.office || 0} د.ج</div>
+                    </div>
+                `;
+                deliveryPricesGrid.appendChild(priceCard);
+            });
+            
+            // إضافة أحداث لأزرار الحذف
+            const deleteBtns = deliveryPricesGrid.querySelectorAll('.delete-delivery-price');
+            deleteBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const state = btn.getAttribute('data-state');
+                    deleteDeliveryPrice(state);
+                });
+            });
+        }
+
+        // حفظ المنتج
+        function saveProduct() {
+            const id = document.getElementById('productId').value;
+            const name = document.getElementById('productName').value;
+            const description = document.getElementById('productDescription').value;
+            const category = document.getElementById('productCategory').value;
+            const price = parseInt(document.getElementById('productPrice').value);
+            const colors = document.getElementById('productColors').value.split(',').map(c => c.trim()).filter(c => c);
+            const sizes = document.getElementById('productSizes').value.split(',').map(s => s.trim()).filter(s => s);
+            const specifications = getSpecificationsFromForm();
+            
+            // استخدام الصورة الرئيسية إذا تم اختيارها، أو استخدام الصورة الافتراضية
+            const mainImage = mainImageData || createProductImage(name);
+            
+            // استخدام الصور الإضافية إذا تم اختيارها
+            const additionalImages = additionalImagesData.length > 0 ? additionalImagesData : [mainImage];
+            
+            if (id) {
+                // تعديل منتج موجود
+                const index = products.findIndex(p => p.id === parseInt(id));
+                if (index !== -1) {
+                    products[index].name = name;
+                    products[index].description = description;
+                    products[index].category = category;
+                    products[index].price = price;
+                    products[index].image = mainImage;
+                    products[index].images = additionalImages;
+                    products[index].specifications = specifications;
+                    products[index].colors = colors;
+                    products[index].sizes = sizes;
+                }
+            } else {
+                // إضافة منتج جديد
+                const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+                products.push({
+                    id: newId,
+                    name: name,
+                    description: description,
+                    category: category,
+                    price: price,
+                    image: mainImage,
+                    images: additionalImages,
+                    specifications: specifications,
+                    colors: colors,
+                    sizes: sizes
+                });
+            }
+            
+            localStorage.setItem('products', JSON.stringify(products));
+            renderAdminProducts();
+            resetProductForm();
+            updateStats();
+            
+            alert('تم حفظ المنتج بنجاح');
+        }
+
+        // إنشاء صورة افتراضية للمنتج
+        function createProductImage(text, width = 300, height = 200) {
+            return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+                <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="#f5f5f5"/>
+                    <text x="50%" y="50%" font-family="Arial" font-size="16" text-anchor="middle" dy=".3em" fill="#777">${text}</text>
+                </svg>
+            `)}`;
+        }
+
+        // حفظ التصنيف
+        function saveCategory() {
+            const id = document.getElementById('categoryId').value;
+            const name = document.getElementById('categoryName').value;
+            const nameFr = document.getElementById('categoryNameFr').value;
+            const nameEn = document.getElementById('categoryNameEn').value;
+            const value = document.getElementById('categoryValue').value;
+            
+            if (id) {
+                // تعديل تصنيف موجود
+                const index = categories.findIndex(c => c.id === parseInt(id));
+                if (index !== -1) {
+                    categories[index].name = name;
+                    categories[index].name_fr = nameFr;
+                    categories[index].name_en = nameEn;
+                    categories[index].value = value;
+                }
+            } else {
+                // إضافة تصنيف جديد
+                const newId = categories.length > 0 ? Math.max(...categories.map(c => c.id)) + 1 : 1;
+                categories.push({
+                    id: newId,
+                    name: name,
+                    name_fr: nameFr,
+                    name_en: nameEn,
+                    value: value
+                });
+            }
+            
+            localStorage.setItem('categories', JSON.stringify(categories));
+            renderCategories();
+            resetCategoryForm();
+            populateCategories();
+            
+            alert('تم حفظ التصنيف بنجاح');
+        }
+
+        // تعديل التصنيف
+        function editCategory(id) {
+            const category = categories.find(c => c.id === id);
+            if (!category) return;
+            
+            document.getElementById('categoryId').value = category.id;
+            document.getElementById('categoryName').value = category.name;
+            document.getElementById('categoryNameFr').value = category.name_fr;
+            document.getElementById('categoryNameEn').value = category.name_en;
+            document.getElementById('categoryValue').value = category.value;
+            
+            document.getElementById('saveCategory').textContent = 'تحديث التصنيف';
+        }
+
+        // حذف التصنيف
+        function deleteCategory(id) {
+            if (confirm('هل أنت متأكد من حذف هذا التصنيف؟')) {
+                // التحقق من وجود منتجات مرتبطة بهذا التصنيف
+                const productsInCategory = products.filter(p => p.category === categories.find(c => c.id === id).value);
+                if (productsInCategory.length > 0) {
+                    alert('لا يمكن حذف التصنيف لأنه مرتبط بمنتجات. يرجى نقل المنتجات إلى تصنيف آخر أولاً.');
+                    return;
+                }
+                
+                categories = categories.filter(c => c.id !== id);
+                localStorage.setItem('categories', JSON.stringify(categories));
+                renderCategories();
+                populateCategories();
+                alert('تم حذف التصنيف بنجاح');
+            }
+        }
+
+        // إعادة تعيين نموذج التصنيف
+        function resetCategoryForm() {
+            document.getElementById('categoryId').value = '';
+            document.getElementById('categoryName').value = '';
+            document.getElementById('categoryNameFr').value = '';
+            document.getElementById('categoryNameEn').value = '';
+            document.getElementById('categoryValue').value = '';
+            document.getElementById('saveCategory').textContent = 'حفظ التصنيف';
+        }
+
+        // ملء قائمة التصنيفات في نموذج المنتج
+        function populateCategories() {
+            const productCategory = document.getElementById('productCategory');
+            productCategory.innerHTML = '<option value="">اختر التصنيف</option>';
+            
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.value;
+                option.textContent = category.name;
+                productCategory.appendChild(option);
+            });
+        }
+
+        // معالجة رفع الصور
+        function handleImageUpload(inputElement, isMainImage = false, isAdImage = false) {
+            const files = inputElement.files;
+            
+            if (files.length === 0) return;
+            
+            if (isAdImage) {
+                // معالجة صورة الإعلان
+                const file = files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    adImageData = e.target.result;
+                    
+                    // عرض معاينة الصورة
+                    adImagePreview.innerHTML = '';
+                    const preview = document.createElement('div');
+                    preview.className = 'image-preview';
+                    preview.innerHTML = `
+                        <img src="${adImageData}" alt="معاينة صورة الإعلان">
+                        <button type="button" class="remove-image" data-type="ad">✕</button>
+                    `;
+                    adImagePreview.appendChild(preview);
+                    
+                    // إضافة حدث لإزالة الصورة
+                    const removeBtn = preview.querySelector('.remove-image');
+                    removeBtn.addEventListener('click', () => {
+                        adImageData = null;
+                        adImagePreview.innerHTML = '';
+                        adImageInput.value = '';
+                    });
+                };
+                
+                reader.readAsDataURL(file);
+            } else if (isMainImage) {
+                // معالجة الصورة الرئيسية
+                const file = files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    mainImageData = e.target.result;
+                    
+                    // عرض معاينة الصورة
+                    mainImagePreview.innerHTML = '';
+                    const preview = document.createElement('div');
+                    preview.className = 'image-preview';
+                    preview.innerHTML = `
+                        <img src="${mainImageData}" alt="معاينة الصورة الرئيسية">
+                        <button type="button" class="remove-image" data-type="main">✕</button>
+                    `;
+                    mainImagePreview.appendChild(preview);
+                    
+                    // إضافة حدث لإزالة الصورة
+                    const removeBtn = preview.querySelector('.remove-image');
+                    removeBtn.addEventListener('click', () => {
+                        mainImageData = null;
+                        mainImagePreview.innerHTML = '';
+                        mainProductImageInput.value = '';
+                    });
+                };
+                
+                reader.readAsDataURL(file);
+            } else {
+                // معالجة الصور الإضافية
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const imageData = e.target.result;
+                        additionalImagesData.push(imageData);
+                        
+                        // عرض معاينة الصورة
+                        const preview = document.createElement('div');
+                        preview.className = 'image-preview';
+                        preview.innerHTML = `
+                            <img src="${imageData}" alt="معاينة الصورة الإضافية">
+                            <button type="button" class="remove-image" data-index="${additionalImagesData.length - 1}">✕</button>
+                        `;
+                        additionalImagesPreview.appendChild(preview);
+                        
+                        // إضافة حدث لإزالة الصورة
+                        const removeBtn = preview.querySelector('.remove-image');
+                        removeBtn.addEventListener('click', function() {
+                            const index = parseInt(this.getAttribute('data-index'));
+                            additionalImagesData.splice(index, 1);
+                            additionalImagesPreview.removeChild(preview);
+                            
+                            // تحديث مؤشرات الأزرار
+                            const allRemoveBtns = additionalImagesPreview.querySelectorAll('.remove-image');
+                            allRemoveBtns.forEach((btn, i) => {
+                                btn.setAttribute('data-index', i);
+                            });
+                        });
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        // تعديل المنتج
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            document.getElementById('productId').value = product.id;
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productDescription').value = product.description;
+            document.getElementById('productCategory').value = product.category;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productColors').value = product.colors ? product.colors.join(', ') : '';
+            document.getElementById('productSizes').value = product.sizes ? product.sizes.join(', ') : '';
+            
+            // تعيين المواصفات
+            setSpecificationsInForm(product.specifications);
+            
+            // عرض الصورة الرئيسية
+            mainImageData = product.image;
+            mainImagePreview.innerHTML = '';
+            const mainPreview = document.createElement('div');
+            mainPreview.className = 'image-preview';
+            mainPreview.innerHTML = `
+                <img src="${mainImageData}" alt="معاينة الصورة الرئيسية">
+                <button type="button" class="remove-image" data-type="main">✕</button>
+            `;
+            mainImagePreview.appendChild(mainPreview);
+            
+            // إضافة حدث لإزالة الصورة الرئيسية
+            const mainRemoveBtn = mainPreview.querySelector('.remove-image');
+            mainRemoveBtn.addEventListener('click', () => {
+                mainImageData = null;
+                mainImagePreview.innerHTML = '';
+                mainProductImageInput.value = '';
+            });
+            
+            // عرض الصور الإضافية
+            additionalImagesData = [...product.images];
+            additionalImagesPreview.innerHTML = '';
+            additionalImagesData.forEach((imageData, index) => {
+                const preview = document.createElement('div');
+                preview.className = 'image-preview';
+                preview.innerHTML = `
+                    <img src="${imageData}" alt="معاينة الصورة الإضافية">
+                    <button type="button" class="remove-image" data-index="${index}">✕</button>
+                `;
+                additionalImagesPreview.appendChild(preview);
+                
+                // إضافة حدث لإزالة الصورة
+                const removeBtn = preview.querySelector('.remove-image');
+                removeBtn.addEventListener('click', function() {
+                    const idx = parseInt(this.getAttribute('data-index'));
+                    additionalImagesData.splice(idx, 1);
+                    additionalImagesPreview.removeChild(preview);
+                    
+                    // تحديث مؤشرات الأزرار
+                    const allRemoveBtns = additionalImagesPreview.querySelectorAll('.remove-image');
+                    allRemoveBtns.forEach((btn, i) => {
+                        btn.setAttribute('data-index', i);
+                    });
+                });
+            });
+            
+            document.getElementById('saveProduct').textContent = 'تحديث المنتج';
+        }
+
+        // حذف المنتج
+        function deleteProduct(id) {
+            if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('products', JSON.stringify(products));
+                renderAdminProducts();
+                updateStats();
+                alert('تم حذف المنتج بنجاح');
+            }
+        }
+
+        // إعادة تعيين نموذج المنتج
+        function resetProductForm() {
+            document.getElementById('productId').value = '';
+            document.getElementById('productName').value = '';
+            document.getElementById('productDescription').value = '';
+            document.getElementById('productCategory').value = '';
+            document.getElementById('productPrice').value = '';
+            document.getElementById('productColors').value = '';
+            document.getElementById('productSizes').value = '';
+            mainImagePreview.innerHTML = '';
+            additionalImagesPreview.innerHTML = '';
+            mainImageData = null;
+            additionalImagesData = [];
+            mainProductImageInput.value = '';
+            additionalProductImagesInput.value = '';
+            setSpecificationsInForm({});
+            document.getElementById('saveProduct').textContent = 'حفظ المنتج';
+        }
+
+        // حفظ الإعلان
+        function saveAd() {
+            const id = document.getElementById('adId').value;
+            const title = document.getElementById('adTitle').value;
+            const description = document.getElementById('adDescription').value;
+            const link = document.getElementById('adLink').value;
+            const active = document.getElementById('adActive').checked;
+            
+            // استخدام صورة الإعلان إذا تم اختيارها، أو استخدام الصورة الافتراضية
+            const image = adImageData || createProductImage(title, 1200, 300);
+            
+            if (id) {
+                // تعديل إعلان موجود
+                const index = ads.findIndex(a => a.id === parseInt(id));
+                if (index !== -1) {
+                    ads[index].title = title;
+                    ads[index].description = description;
+                    ads[index].link = link;
+                    ads[index].active = active;
+                    ads[index].image = image;
+                }
+            } else {
+                // إضافة إعلان جديد
+                const newId = ads.length > 0 ? Math.max(...ads.map(a => a.id)) + 1 : 1;
+                ads.push({
+                    id: newId,
+                    title: title,
+                    description: description,
+                    link: link,
+                    active: active,
+                    image: image
+                });
+            }
+            
+            localStorage.setItem('ads', JSON.stringify(ads));
+            renderAds();
+            resetAdForm();
+            
+            alert('تم حفظ الإعلان بنجاح');
+        }
+
+        // تعديل الإعلان
+        function editAd(id) {
+            const ad = ads.find(a => a.id === id);
+            if (!ad) return;
+            
+            document.getElementById('adId').value = ad.id;
+            document.getElementById('adTitle').value = ad.title;
+            document.getElementById('adDescription').value = ad.description;
+            document.getElementById('adLink').value = ad.link;
+            document.getElementById('adActive').checked = ad.active;
+            
+            // عرض صورة الإعلان
+            adImageData = ad.image;
+            adImagePreview.innerHTML = '';
+            const preview = document.createElement('div');
+            preview.className = 'image-preview';
+            preview.innerHTML = `
+                <img src="${adImageData}" alt="معاينة صورة الإعلان">
+                <button type="button" class="remove-image" data-type="ad">✕</button>
+            `;
+            adImagePreview.appendChild(preview);
+            
+            // إضافة حدث لإزالة الصورة
+            const removeBtn = preview.querySelector('.remove-image');
+            removeBtn.addEventListener('click', () => {
+                adImageData = null;
+                adImagePreview.innerHTML = '';
+                adImageInput.value = '';
+            });
+            
+            document.getElementById('saveAd').textContent = 'تحديث الإعلان';
+        }
+
+        // حذف الإعلان
+        function deleteAd(id) {
+            if (confirm('هل أنت متأكد من حذف هذا الإعلان؟')) {
+                ads = ads.filter(a => a.id !== id);
+                localStorage.setItem('ads', JSON.stringify(ads));
+                renderAds();
+                alert('تم حذف الإعلان بنجاح');
+            }
+        }
+
+        // إعادة تعيين نموذج الإعلان
+        function resetAdForm() {
+            document.getElementById('adId').value = '';
+            document.getElementById('adTitle').value = '';
+            document.getElementById('adDescription').value = '';
+            document.getElementById('adLink').value = '';
+            document.getElementById('adActive').checked = true;
+            adImagePreview.innerHTML = '';
+            adImageData = null;
+            adImageInput.value = '';
+            document.getElementById('saveAd').textContent = 'حفظ الإعلان';
+        }
+
+        // ملء قائمة الولايات
+        function populateStates() {
+            deliveryState.innerHTML = '<option value="">اختر الولاية</option>';
+            algerianStates.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state;
+                option.textContent = state;
+                deliveryState.appendChild(option);
+            });
+        }
+
+        // حفظ أسعار التوصيل
+        function saveDeliveryPrices() {
+            const state = deliveryState.value;
+            const homePrice = parseInt(document.getElementById('homeDeliveryPrice').value);
+            const officePrice = parseInt(document.getElementById('officeDeliveryPrice').value);
+            
+            if (!state) {
+                alert('يرجى اختيار الولاية');
+                return;
+            }
+            
+            deliveryPrices[state] = {
+                home: homePrice,
+                office: officePrice
+            };
+            
+            localStorage.setItem('deliveryPrices', JSON.stringify(deliveryPrices));
+            
+            alert('تم حفظ أسعار التوصيل بنجاح');
+            deliveryForm.reset();
+            renderDeliveryPrices();
+        }
+
+        // حذف سعر التوصيل
+        function deleteDeliveryPrice(state) {
+            if (confirm(`هل أنت متأكد من حذف أسعار التوصيل لولاية ${state}؟`)) {
+                delete deliveryPrices[state];
+                localStorage.setItem('deliveryPrices', JSON.stringify(deliveryPrices));
+                renderDeliveryPrices();
+                alert('تم حذف أسعار التوصيل بنجاح');
+            }
+        }
+
+        // إعداد الأحداث
+        function setupEventListeners() {
+            // أحداث التبويبات
+            adminTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // تحديث التبويبات النشطة
+                    adminTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // إظهار المحتوى المناسب
+                    document.querySelectorAll('.admin-tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(`${tabId}Tab`).classList.add('active');
+                });
+            });
+            
+            // أحداث نموذج المنتج
+            productForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                saveProduct();
+            });
+            
+            document.getElementById('cancelEdit').addEventListener('click', resetProductForm);
+            
+            // أحداث نموذج التصنيف
+            categoryForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                saveCategory();
+            });
+            
+            document.getElementById('cancelCategoryEdit').addEventListener('click', resetCategoryForm);
+            
+            // أحداث رفع الصور للمنتجات
+            mainProductImageInput.addEventListener('change', () => {
+                handleImageUpload(mainProductImageInput, true);
+            });
+            
+            additionalProductImagesInput.addEventListener('change', () => {
+                handleImageUpload(additionalProductImagesInput, false);
+            });
+            
+            // أحداث نموذج الإعلانات
+            adForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                saveAd();
+            });
+            
+            document.getElementById('cancelAdEdit').addEventListener('click', resetAdForm);
+            
+            // أحداث رفع صورة الإعلان
+            adImageInput.addEventListener('change', () => {
+                handleImageUpload(adImageInput, false, true);
+            });
+            
+            // أحداث نموذج أسعار التوصيل
+            deliveryForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                saveDeliveryPrices();
+            });
+            
+            // حدث تسجيل الخروج
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                if (confirm('هل تريد تسجيل الخروج؟')) {
+                    localStorage.removeItem('currentUser');
+                    window.location.href = 'index.html';
+                }
+            });
+        }
+
+        // بدء لوحة التحكم
+        initAdmin();
+    </script>
+</body>
+</html>
